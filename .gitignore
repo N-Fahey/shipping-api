@@ -1,0 +1,7 @@
+#Local files
+.venv/
+.planning/
+
+#IDE
+__pycache__/
+.vscode/
