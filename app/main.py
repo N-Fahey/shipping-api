@@ -1,6 +1,7 @@
 from flask import Flask
 
 from .db import db, DB_CONNSTR
+from .controllers import cli_bp
 
 def create_app():
     app = Flask(__name__)
@@ -11,6 +12,7 @@ def create_app():
     def index():
         return {'message': 'Hello, World!'}
     
-    print('Server started')
+    app.register_blueprint(cli_bp)
+    
     return app
     
