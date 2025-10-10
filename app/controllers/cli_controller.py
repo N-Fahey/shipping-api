@@ -2,6 +2,7 @@ from flask import Blueprint
 
 from app.db import db
 from app.model import (
+    Booking,
     Company,
     CargoType,
     Dock,
