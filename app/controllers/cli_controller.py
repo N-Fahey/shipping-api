@@ -3,7 +3,8 @@ from flask import Blueprint
 from app.db import db
 from app.model import (
     Company,
-    CargoType
+    CargoType,
+    Ship
 )
 
 cli_bp = Blueprint('db', __name__)

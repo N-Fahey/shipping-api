@@ -1,5 +1,4 @@
 from sqlalchemy import types
-from sqlalchemy.types import Integer
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db import db
@@ -14,5 +13,5 @@ class CargoType(db.Model):
     """
 
     __tablename__ = 'cargo_types'
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(types.Integer, primary_key=True)
     cargo_name: Mapped[str] = mapped_column(types.String(50), unique=True)

@@ -1,5 +1,4 @@
 from sqlalchemy import types
-from sqlalchemy.types import Integer
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db import db
@@ -18,7 +17,7 @@ class Company(db.Model):
     """
 
     __tablename__ = 'companies'
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(types.Integer, primary_key=True)
     company_name: Mapped[str] = mapped_column(types.String(100))
     country: Mapped[str] = mapped_column(types.String(50))
     email: Mapped[str] = mapped_column(types.String(150), unique=True)
