@@ -4,6 +4,7 @@ from app.db import db
 from app.model import (
     Company,
     CargoType,
+    Dock,
     Ship
 )
 
