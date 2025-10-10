@@ -1,4 +1,4 @@
-from sqlalchemy import types, ForeignKey
+from sqlalchemy import types, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db import db
@@ -14,6 +14,10 @@ class DockCargo(db.Model):
     """
 
     __tablename__ = 'dock_cargo'
+    __tableargs__ = (
+        UniqueConstraint('cargo_type_id', 'dock_id', name='dock_cargo_unique_cargo_type_id_dock_id'),
+    )
+
     id: Mapped[int] = mapped_column(types.Integer, primary_key=True)
     cargo_type_id: Mapped[int] = mapped_column(ForeignKey('cargo_types.id'))
     dock_id: Mapped[int] = mapped_column(ForeignKey('docks.id'))

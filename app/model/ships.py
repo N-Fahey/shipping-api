@@ -1,4 +1,4 @@
-from sqlalchemy import types, ForeignKey
+from sqlalchemy import types, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db import db
@@ -16,6 +16,10 @@ class Ship(db.Model):
     """
 
     __tablename__ = 'ships'
+    __table_args__ = (
+        UniqueConstraint('ship_name', 'company_id', name='ships_unique_ship_name_company_id'),
+    )
+
     id: Mapped[int] = mapped_column(types.Integer, primary_key=True)
     ship_name: Mapped[str] = mapped_column(types.String(100))
     ship_length: Mapped[int] = mapped_column(types.Integer)
