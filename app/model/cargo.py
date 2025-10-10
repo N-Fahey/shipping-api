@@ -1,0 +1,18 @@
+from sqlalchemy import types
+from sqlalchemy.types import Integer
+from sqlalchemy.orm import Mapped, mapped_column
+
+from app.db import db
+
+class CargoType(db.Model):
+    """
+    CargoType model representing a cargo type.
+
+    Fields:
+        id: Primary key, unique identifier for the cargo type
+        cargo_name: The name of the cargo type
+    """
+
+    __tablename__ = 'cargo_types'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    cargo_name: Mapped[str] = mapped_column(types.String(50), unique=True)
