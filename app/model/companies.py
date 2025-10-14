@@ -1,4 +1,4 @@
-from sqlalchemy import types
+from sqlalchemy import types, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db import db
@@ -17,6 +17,9 @@ class Company(db.Model):
     """
 
     __tablename__ = 'companies'
+    __table_args__ = (
+        UniqueConstraint('company_name', 'country', name='companies_unique_company_name_country'),
+    )
     id: Mapped[int] = mapped_column(types.Integer, primary_key=True)
     company_name: Mapped[str] = mapped_column(types.String(100))
     country: Mapped[str] = mapped_column(types.String(50))
