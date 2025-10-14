@@ -1,6 +1,7 @@
 from flask import Flask
 
 from .db import db, DB_CONNSTR
+from .errors import register_error_handler
 from .controllers import cli_bp
 from .routes import routes_bp
 
@@ -17,6 +18,8 @@ def create_app():
     
     app.register_blueprint(cli_bp)
     app.register_blueprint(routes_bp)
+
+    register_error_handler(app)
     
     return app
     
