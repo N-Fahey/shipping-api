@@ -10,7 +10,7 @@ def register_error_handler(app:Flask):
     
     @app.errorhandler(IntegrityError)
     def handle_integrity_error(e:IntegrityError):
-        if not hasattr(e, 'orig') and not e.orig:
+        if not hasattr(e, 'orig') or not e.orig:
             return jsonify({'message': f"An unexpected IntegrityError error occured.", 'error': f'{e}'}), 400
         
         match e.orig.pgcode:
@@ -20,7 +20,7 @@ def register_error_handler(app:Flask):
                 return jsonify({'message': f"{e.orig.diag.message_detail}"}), 409
             case errorcodes.UNIQUE_VIOLATION:
                 #TODO: Create general unique violation message
-                return jsonify({'message': f"Enrolment already exists"}), 409
+                return jsonify({'message': f"{e.orig.diag.message_detail}"}), 409
             case _:
                 return jsonify({'message': f"An unexpected data error occured."}), 400
     
@@ -29,13 +29,13 @@ def register_error_handler(app:Flask):
         return jsonify({'message': f"An unexpected data error occured: {e}"}), 400
     
     @app.errorhandler(404)
-    def handle_415_error(e:Exception):
-        return {'message': f"Requested resource does not exist"}, 404
+    def handle_404_error(e:Exception):
+        return jsonify({'message': f"Requested resource does not exist"}), 404
 
     @app.errorhandler(415)
     def handle_415_error(e:Exception):
-        return {'message': f"Request must use Content-Type 'application/json' and body must be valid JSON"}, 415
+        return jsonify({'message': f"Request must use Content-Type 'application/json' and body must be valid JSON"}), 415
     
     @app.errorhandler(500)
     def handle_500_error(e:Exception):
-        return {'message': f"A server error occured"}, 500
+        return jsonify({'message': f"A server error occured"}), 500
