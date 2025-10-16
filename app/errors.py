@@ -3,10 +3,21 @@ from sqlalchemy.exc import IntegrityError, DataError
 from marshmallow import ValidationError
 from psycopg2 import errorcodes
 
+class PathParamError(Exception):
+    '''Exception for path parameter lookup errors
+    '''
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+    
 def register_error_handler(app:Flask):
     @app.errorhandler(ValidationError)
     def handle_validation_error(e:ValidationError):
         return jsonify(e.messages), 400
+    
+    @app.errorhandler(PathParamError)
+    def handle_path_error(e:PathParamError):
+        return jsonify({'message': e.message}), 404
     
     @app.errorhandler(IntegrityError)
     def handle_integrity_error(e:IntegrityError):
