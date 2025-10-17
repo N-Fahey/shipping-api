@@ -1,5 +1,5 @@
 from sqlalchemy import types, UniqueConstraint
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import db
 
@@ -26,3 +26,5 @@ class Company(db.Model):
     email: Mapped[str] = mapped_column(types.String(150), unique=True)
     phone: Mapped[str] = mapped_column(types.String(20))
     address: Mapped[str] = mapped_column(types.Text)
+
+    ships: Mapped[list['Ship']] = relationship(back_populates='company')

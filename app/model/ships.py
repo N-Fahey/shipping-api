@@ -1,5 +1,5 @@
 from sqlalchemy import types, ForeignKey, UniqueConstraint
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import db
 
@@ -27,3 +27,6 @@ class Ship(db.Model):
     registration_country: Mapped[str] = mapped_column(types.String(50))
     cargo_type_id: Mapped[int] = mapped_column(ForeignKey('cargo_types.id'))
     company_id: Mapped[int] = mapped_column(ForeignKey('companies.id'))
+
+    cargo_type: Mapped['CargoType'] = relationship()
+    company: Mapped['Company'] = relationship(back_populates='ships')

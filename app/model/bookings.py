@@ -25,3 +25,5 @@ class Booking(db.Model):
     booking_status: Mapped[str] = mapped_column(types.Enum('PENDING', 'CONFIRMED', name='booking_status_enum'))
     ship_id: Mapped[int] = mapped_column(ForeignKey('ships.id'))
     dock_id: Mapped[int] = mapped_column(ForeignKey('docks.id'))
+
+    #TODO: Relationships
