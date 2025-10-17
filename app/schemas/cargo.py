@@ -13,7 +13,7 @@ class CargoSchema(SQLAlchemyAutoSchema):
             'ships'
         )
 
-    cargo_name = auto_field('cargo_name', validate=[
+    cargo_name = auto_field(validate=[
         validate.Length(min=3, max=20, error='Cargo name must be between {min} and {max} characters.')
     ])
     
