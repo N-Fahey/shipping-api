@@ -65,6 +65,7 @@ def update_company(company_id:int):
     Path Params:
         company_id (int): ID of the company to update
     Body (All optional):
+        Company_name(str): Name of the company
         Country(str): Home country of the company
         Email(str): Contact email address
         Phone(str): Contact phone number
