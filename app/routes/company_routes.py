@@ -98,4 +98,7 @@ def delete_company(company_id:int):
     
     #TODO: Validation re. ships - in schema?
 
-    #TODO: Finish route once ships done
+    db.session.delete(company)
+    db.session.commit()
+
+    return jsonify({'message': f'Company "{company.company_name}" deleted.'}), 200
