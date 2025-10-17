@@ -10,6 +10,13 @@ class PathParamError(Exception):
         self.message = message
         super().__init__(self.message)
     
+class BodyError(Exception):
+    '''Exception for request body errors
+    '''
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
+
 def register_error_handler(app:Flask):
     @app.errorhandler(ValidationError)
     def handle_validation_error(e:ValidationError):
@@ -18,6 +25,10 @@ def register_error_handler(app:Flask):
     @app.errorhandler(PathParamError)
     def handle_path_error(e:PathParamError):
         return jsonify({'message': e.message}), 404
+    
+    @app.errorhandler(BodyError)
+    def handle_body_error(e:BodyError):
+        return jsonify({'message': e.message}), 400
     
     @app.errorhandler(IntegrityError)
     def handle_integrity_error(e:IntegrityError):
