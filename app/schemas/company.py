@@ -13,11 +13,11 @@ class CompanySchema(SQLAlchemyAutoSchema):
             'country',
             'email',
             'phone',
-            'address'
+            'address',
+            'ships'
         )
 
-    #TODO: Implement relationship
-    #ships = fields.List(fields.Nested('ShipSchema', exclude=['company']))
+    ships = fields.List(fields.Nested('ShipSchema', dump_only=True, exclude=['company']))
 
 company_schema = CompanySchema()
 companies_schema = CompanySchema(many=True)

@@ -14,11 +14,17 @@ class ShipSchema(SQLAlchemyAutoSchema):
             'ship_length',
             'registration_country',
             'cargo_type_id',
+            'company_id',
+            'cargo_type',
+            'company'
+        )
+        load_only = (
+            'cargo_type_id',
             'company_id'
         )
 
-    #TODO: Implement relationships - cargo, company
-    #ships = fields.List(fields.Nested('ShipSchema', exclude=['company']))
+    company = fields.Nested('CompanySchema', exclude=['ships'])
+    cargo_type = fields.Nested('CargoSchema')
 
 ship_schema = ShipSchema()
 ships_schema = ShipSchema(many=True)
