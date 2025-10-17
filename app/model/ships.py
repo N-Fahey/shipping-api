@@ -10,6 +10,7 @@ class Ship(db.Model):
     Fields:
         id: Primary key, unique identifier for the ship
         ship_name: Name of the ship
+        ship_length: Length (in metres) of the ship
         registration_country: Country where the ship is registered
         cargo_type_id: ID of the cargo type this ship is configured for (FK to cargo_types)
         company_id: ID of the company this ship is registered to (FK to companies)
