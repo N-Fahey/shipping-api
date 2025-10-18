@@ -14,6 +14,8 @@ class Dock(db.Model):
     """
 
     __tablename__ = 'docks'
+    #TODO: Add Check constraints - dock_length, dock_code(min)
+
     id: Mapped[int] = mapped_column(types.Integer, primary_key=True)
     dock_code: Mapped[str] = mapped_column(types.String(10), unique=True)
     dock_length: Mapped[int] = mapped_column(types.Integer)

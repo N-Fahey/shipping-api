@@ -22,7 +22,7 @@ class DockSchema(SQLAlchemyAutoSchema):
     ])
 
     dock_length = auto_field(validate=[
-        validate.Length(min=1, error='Dock length must be greater than 0.')
+        validate.Range(min=1, error='Dock length must be greater than 0.')
     ])
 
     #TODO: validation re. cargo types
