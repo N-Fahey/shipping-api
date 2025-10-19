@@ -1,7 +1,7 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 from marshmallow import fields, validate
 
-from app.model import Dock
+from app.model import Dock, DockCargo
 
 class DockSchema(SQLAlchemyAutoSchema):
     class Meta:
@@ -14,7 +14,7 @@ class DockSchema(SQLAlchemyAutoSchema):
             'cargo_types'
         )
     
-    cargo_types = fields.List(fields.Nested('CargoSchema', dump_only=True, exclude=['docks']))
+    cargo_types = fields.List(fields.Nested('CargoSchema', exclude=['docks']), dump_only=True)
 
     dock_code = auto_field(validate=[
         validate.Length(min=2, max=10, error='Dock name must be between {min} and {max} characters.'),
@@ -27,6 +27,18 @@ class DockSchema(SQLAlchemyAutoSchema):
 
     #TODO: validation re. cargo types
 
+class DockCargoSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = DockCargo
+        load_instance = True
+        include_fk = True
+        fields = (
+            'id',
+            'cargo_type_id',
+            'dock_id'
+        )
 
 dock_schema = DockSchema()
 docks_schema = DockSchema(many=True)
+
+dock_cargos_schema = DockCargoSchema(many=True)

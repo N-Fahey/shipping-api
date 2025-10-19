@@ -16,4 +16,4 @@ class CargoType(db.Model):
     id: Mapped[int] = mapped_column(types.Integer, primary_key=True)
     cargo_name: Mapped[str] = mapped_column(types.String(50), unique=True)
 
-    docks: Mapped[list['Dock']] = relationship(secondary="dock_cargo", back_populates="cargo_types", lazy="selectin")
+    docks: Mapped[list['Dock']] = relationship(secondary="dock_cargo", back_populates="cargo_types")

@@ -10,14 +10,14 @@ class CargoSchema(SQLAlchemyAutoSchema):
         fields = (
             'id',
             'cargo_name',
-            'ships'
+            'docks'
         )
 
     cargo_name = auto_field(validate=[
         validate.Length(min=3, max=50, error='Cargo name must be between {min} and {max} characters.')
     ])
     
-    ships = fields.List(fields.Nested('ShipSchema', exclude=['cargo']))
+    docks = fields.List(fields.Nested('DockSchema', exclude=['cargo_types']))
 
 
 cargo_schema = CargoSchema()
