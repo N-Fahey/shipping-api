@@ -34,9 +34,9 @@ def get_all_cargos():
 
     #TODO: Add any query parameters
 
-    companies = db.session.scalars(stmt)
+    cargo_types = db.session.scalars(stmt)
 
-    result = cargos_schema.dump(companies)
+    result = cargos_schema.dump(cargo_types)
     return jsonify(result), 200
 
 @cargo_route_bp.route('/DeleteCargo/<int:cargo_id>', methods=('DELETE',))
