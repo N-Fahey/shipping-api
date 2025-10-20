@@ -20,7 +20,5 @@ class Dock(db.Model):
     dock_code: Mapped[str] = mapped_column(types.String(10), unique=True)
     dock_length: Mapped[int] = mapped_column(types.Integer)
 
-    cargo_types: Mapped[list['CargoType']] = relationship(
-        secondary="dock_cargo",
-        back_populates="docks"
-    )
+    cargo_types: Mapped[list['CargoType']] = relationship(secondary="dock_cargo", back_populates="docks")
+    bookings: Mapped[list['Booking']] = relationship(back_populates='dock')

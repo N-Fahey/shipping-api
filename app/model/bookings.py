@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from sqlalchemy import types, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import db
 
@@ -26,4 +26,6 @@ class Booking(db.Model):
     ship_id: Mapped[int] = mapped_column(ForeignKey('ships.id'))
     dock_id: Mapped[int] = mapped_column(ForeignKey('docks.id'))
 
-    #TODO: Relationships
+    #TODO: Add back populates for ship?
+    ship: Mapped['Ship'] = relationship()
+    dock: Mapped['Dock'] = relationship(back_populates='bookings')
