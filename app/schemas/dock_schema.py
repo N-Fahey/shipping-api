@@ -11,7 +11,8 @@ class DockSchema(SQLAlchemyAutoSchema):
             'id',
             'dock_code',
             'dock_length',
-            'cargo_types'
+            'cargo_types',
+            'bookings'
         )
     
     cargo_types = fields.List(fields.Nested('CargoSchema', exclude=['docks']), dump_only=True)
@@ -25,6 +26,7 @@ class DockSchema(SQLAlchemyAutoSchema):
         validate.Range(min=1, error='Dock length must be greater than 0.')
     ])
 
+    bookings = fields.List(fields.Nested('BookingSchema', exclude=['dock']))
     #TODO: validation re. cargo types
 
 class DockCargoSchema(SQLAlchemyAutoSchema):

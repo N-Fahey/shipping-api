@@ -43,8 +43,10 @@ def register_error_handler(app:Flask):
             case errorcodes.UNIQUE_VIOLATION:
                 #TODO: Create general unique violation message
                 return jsonify({'message': f"{e.orig.diag.message_detail}"}), 409
+            case errorcodes.EXCLUSION_VIOLATION:
+                return jsonify({'message': f"{e.orig.diag.message_primary}"}), 409
             case _:
-                return jsonify({'message': f"An unexpected data error occured."}), 400
+                return jsonify({'message': f"An unexpected data error occured. Code: {e.orig.pgcode}"}), 400
     
     @app.errorhandler(DataError)
     def handle_data_error(e:DataError):

@@ -24,7 +24,7 @@ class ShipSchema(SQLAlchemyAutoSchema):
         )
 
     company = fields.Nested('CompanySchema', dump_only=True, exclude=['ships'])
-    cargo_type = fields.Nested('CargoSchema', dump_only=True)
+    cargo_type = fields.Nested('CargoSchema', dump_only=True, only=['id', 'cargo_name'])
 
     ship_name = auto_field(validate=[
         validate.Length(min=4, max=100, error='Ship name must be between {min} and {max} characters.')

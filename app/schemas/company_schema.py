@@ -30,7 +30,7 @@ class CompanySchema(SQLAlchemyAutoSchema):
         validate.Length(max=150, error='Email cannot be greater than {max} characters.')
     ])
     phone = auto_field(validate=[
-        validate.Regexp(r'/^\+?[1-9][0-9]{7,14}$/', error='Enter a valid phone number. Must include international prefix in format"+[country code]"'),
+        validate.Regexp(r'^(\+|00)[1-9][0-9 \-\(\)\.]{7,32}$', error='Enter a valid phone number. Must include international prefix in format"+[country code]"'),
         validate.Length(max=20, error='Phone cannot be greater than {max} characters.')
     ])
     address = auto_field(validate=[
