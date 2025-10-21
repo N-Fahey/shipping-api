@@ -36,7 +36,7 @@ def create_booking():
 
     start_datetime = datetime.strptime(start_str, r'%Y-%m-%d %H:%M')
     end_datetime = start_datetime + timedelta(hours=duration) if duration \
-        else datetime.strptime(start_str, r'%Y-%m-%d %H:%M')
+        else datetime.strptime(end_str, r'%Y-%m-%d %H:%M')
 
     data['booking_start'] = start_datetime
     data['booking_end'] = end_datetime
