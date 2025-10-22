@@ -52,7 +52,6 @@ def register_error_handler(app:Flask):
             case errorcodes.FOREIGN_KEY_VIOLATION:
                 return jsonify({'message': f"{e.orig.diag.message_detail}"}), 409
             case errorcodes.UNIQUE_VIOLATION:
-                #TODO: Create general unique violation message
                 return jsonify({'message': f"{e.orig.diag.message_detail}"}), 409
             case errorcodes.EXCLUSION_VIOLATION:
                 return jsonify({'message': f"{e.orig.diag.message_primary}"}), 409

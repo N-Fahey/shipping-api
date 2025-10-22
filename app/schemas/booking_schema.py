@@ -58,7 +58,10 @@ class BookingSchema(SQLAlchemyAutoSchema):
 
         Remind me to just use constrained VARCHAR next time
         '''
-        data['booking_status'] = data['booking_status'].split('.')[1]
+        status = data.get('booking_status')
+
+        if status:
+            data['booking_status'] = status.split('.')[1]
 
         return data
 

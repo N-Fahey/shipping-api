@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 
 from app.schemas import cargo_schema, cargos_schema
 from app.model import CargoType
@@ -32,8 +33,6 @@ def get_all_cargos():
     '''
     stmt = select(CargoType)
 
-    #TODO: Add any query parameters
-
     cargo_types = db.session.scalars(stmt)
 
     result = cargos_schema.dump(cargo_types)
@@ -51,6 +50,10 @@ def delete_cargo(cargo_id:int):
     if not cargo:
         raise PathParamError(f'No cargo type with id {cargo_id}')
     
-    #TODO: Validation re. ships - in schema?
+    try:
+        db.session.delete(cargo)
+        db.session.commit()
+    except IntegrityError:
+        raise PathParamError('Unable to delete cargo type while registered to a ship or dock.')
 
-    #TODO: Finish route once ships done
+    return jsonify({'message': f'Booking with ID {cargo_id} deleted.'}), 200

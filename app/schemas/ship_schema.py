@@ -16,7 +16,8 @@ class ShipSchema(SQLAlchemyAutoSchema):
             'cargo_type_id',
             'company_id',
             'cargo_type',
-            'company'
+            'company',
+            'bookings'
         )
         load_only = (
             'cargo_type_id',
@@ -25,6 +26,7 @@ class ShipSchema(SQLAlchemyAutoSchema):
 
     company = fields.Nested('CompanySchema', dump_only=True, exclude=['ships'])
     cargo_type = fields.Nested('CargoSchema', dump_only=True, only=['id', 'cargo_name'])
+    bookings = fields.List(fields.Nested('BookingSchema', dump_only=True, exclude=['ship']))
 
     ship_name = auto_field(validate=[
         validate.Length(min=4, max=100, error='Ship name must be between {min} and {max} characters.')

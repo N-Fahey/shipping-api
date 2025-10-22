@@ -47,6 +47,5 @@ class Booking(db.Model):
         ),
     )
 
-    #TODO: Add back populates for ship?
-    ship: Mapped['Ship'] = relationship()
+    ship: Mapped['Ship'] = relationship(back_populates='bookings')
     dock: Mapped['Dock'] = relationship(back_populates='bookings')
