@@ -59,7 +59,7 @@ def seed_data():
 
     companies = [
         Company(company_name='Shipping Co', country='Australia', email='contact@shipping.co', phone='+61(02)12345678', address='123 Ship St, Melbourne 3000 VIC Australia'),
-        Company(company_name='American Ferry Lines', country='USA', email='email@ferries.com', phone='+1(555)123-4567', address='66 Ferry Way, Atlanta, Georgia USA'),
+        Company(company_name='American Ferry Lines', country='Australia', email='email@ferries.com', phone='+1(555)123-4567', address='66 Ferry Way, Atlanta, Georgia USA'),
         Company(company_name='Swedish Flour Distributors', country='Sweden', email='hej@fish.net', phone='+46 111 111 111', address='44 Floury Drive, Stockholm Sweden')
     ]
 
@@ -77,7 +77,7 @@ def seed_data():
     ships = [
         Ship(ship_name='SS ContainerShip', ship_length=210, registration_country='New Zealand', cargo_type_id=cargo_types[0].id, company_id=companies[0].id),
         Ship(ship_name='Got Fuel?', ship_length=240, registration_country='Cayman Islands', cargo_type_id=cargo_types[1].id, company_id=companies[0].id),
-        Ship(ship_name='Ferry Odd Parents', ship_length=160, registration_country='USA', cargo_type_id=cargo_types[4].id, company_id=companies[1].id),
+        Ship(ship_name='Ferry Odd Parents', ship_length=160, registration_country='Australia', cargo_type_id=cargo_types[4].id, company_id=companies[1].id),
         Ship(ship_name='Pride Of Sweden', ship_length=260, registration_country='Norway', cargo_type_id=cargo_types[2].id, company_id=companies[2].id),
         Ship(ship_name='I Love Cars', ship_length=300, registration_country='China', cargo_type_id=cargo_types[3].id, company_id=companies[0].id),
         Ship(ship_name='Mud Island Cruises', ship_length=100, registration_country='Australia', cargo_type_id=cargo_types[4].id, company_id=companies[1].id)

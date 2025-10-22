@@ -1,4 +1,4 @@
-from sqlalchemy import types
+from sqlalchemy import types, CheckConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import db
@@ -14,8 +14,11 @@ class Dock(db.Model):
     """
 
     __tablename__ = 'docks'
-    #TODO: Add Check constraints - dock_length, dock_code(min)
-
+    __table_args__ = (
+        CheckConstraint('dock_length > 0', name='check_dock_lenth'),
+        CheckConstraint('length(dock_code) > 1', name='check_dock_code_length'),
+        CheckConstraint("regexp_like(dock_code, '^[a-zA-Z0-9]+$')", name='check_dock_code_regex')
+    )
     id: Mapped[int] = mapped_column(types.Integer, primary_key=True)
     dock_code: Mapped[str] = mapped_column(types.String(10), unique=True)
     dock_length: Mapped[int] = mapped_column(types.Integer)

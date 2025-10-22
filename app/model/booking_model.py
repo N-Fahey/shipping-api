@@ -38,6 +38,7 @@ class Booking(db.Model):
     ship_id: Mapped[int] = mapped_column(ForeignKey('ships.id'))
     dock_id: Mapped[int] = mapped_column(ForeignKey('docks.id'))
 
+    #Table args need to be defined after columns, ExcludeConstraint makes use of column defs
     __table_args__ = (
         ExcludeConstraint(
             ('dock_id', "="),

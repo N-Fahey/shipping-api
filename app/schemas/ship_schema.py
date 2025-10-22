@@ -32,7 +32,7 @@ class ShipSchema(SQLAlchemyAutoSchema):
         validate.Length(min=4, max=100, error='Ship name must be between {min} and {max} characters.')
     ])
     ship_length = auto_field(validate=[
-        validate.Range(min=1, error='Ship length must be greater than 0.')
+        validate.Range(min=10, error='Ship length must be greater than 10 metres.')
     ])
     registration_country = auto_field(validate=[
         validate.Length(min=4, max=50, error='Country name must be between {min} and {max} characters.')

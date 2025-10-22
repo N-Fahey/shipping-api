@@ -1,4 +1,4 @@
-from sqlalchemy import types, ForeignKey, UniqueConstraint
+from sqlalchemy import types, ForeignKey, UniqueConstraint, CheckConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import db
@@ -19,6 +19,9 @@ class Ship(db.Model):
     __tablename__ = 'ships'
     __table_args__ = (
         UniqueConstraint('ship_name', 'company_id', name='ships_unique_ship_name_company_id'),
+        CheckConstraint('length(ship_name) > 3', name='check_ship_name_length'),
+        CheckConstraint('ship_length > 9', name='check_ship_length'),
+        CheckConstraint('length(registration_country) > 3', name='check_registration_country_length')
     )
 
     id: Mapped[int] = mapped_column(types.Integer, primary_key=True)

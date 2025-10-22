@@ -1,4 +1,4 @@
-from sqlalchemy import types, UniqueConstraint
+from sqlalchemy import types, UniqueConstraint, CheckConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import db
@@ -19,6 +19,9 @@ class Company(db.Model):
     __tablename__ = 'companies'
     __table_args__ = (
         UniqueConstraint('company_name', 'country', name='companies_unique_company_name_country'),
+        CheckConstraint('length(company_name) > 2', name='check_company_name_length'),
+        CheckConstraint('length(country) > 3', name='check_country_length'),
+        CheckConstraint('length(address) > 9', name='check_address_length')
     )
     id: Mapped[int] = mapped_column(types.Integer, primary_key=True)
     company_name: Mapped[str] = mapped_column(types.String(100))
