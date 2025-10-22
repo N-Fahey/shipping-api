@@ -65,7 +65,7 @@ def update_ship(ship_id:int):
     Body (All optional):
         Registration_country (str): The ship's country of registration
         Cargo_type_id (int): Contact phone number
-        ship_id (int): The ship's owning ship
+        Company_id (int): The ship's owning company
     '''
 
     ship = db.session.get(Ship, ship_id)

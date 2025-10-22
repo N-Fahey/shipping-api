@@ -109,11 +109,56 @@ def get_all_bookings():
         stmt = stmt.where(Booking.dock_id == dock_id)
     if ship_id:
         stmt = stmt.where(Booking.ship_id == ship_id)
-    
-    
-    #TODO: Finish query parameters
 
     bookings = db.session.scalars(stmt)
 
     result = bookings_schema.dump(bookings)
     return jsonify(result), 200
+
+@booking_route_bp.route('/UpdateBooking/<int:booking_id>', methods=('PUT','PATCH'))
+def update_booking(booking_id:int):
+    '''Update details of a single booking
+    Path Params:
+        booking_id (int): ID of the booking to update
+    Body (All optional):
+        booking_start (datetime): Update booking start time, using format YYYY-MM-DD HH:MM
+        booking_end (datetime): Update booking end time, using format YYYY-MM-DD HH:MM
+        booking_status (int): Contact phone number
+    '''
+
+    booking = db.session.get(Booking, booking_id)
+
+    if not booking:
+        raise PathParamError(f'No ship with id {booking_id}')
+    
+    data = request.get_json()
+
+    #Only allow updates to specified items
+    allowed_updates = ('booking_start', 'booking_end', 'booking_status')
+    data = {key: data.get(key) for key in allowed_updates if data.get(key)}
+    
+    if not data:
+        raise BodyError(f'No valid attributes to update. Allowed attributes: {", ".join(allowed_updates)}')
+
+    booking = booking_schema.load(data, instance=booking, session=db.session, partial=True)
+    db.session.commit()
+
+    result = booking_schema.dump(booking)
+    return jsonify(result), 200
+
+@booking_route_bp.route('/DeleteBooking/<int:booking_id>', methods=('DELETE',))
+def delete_company(booking_id:int):
+    '''Delete a single booking
+    Path Params:
+        booking_id (int): ID of the booking to delete
+    '''
+    
+    booking = db.session.get(Booking, booking_id)
+    
+    if not booking:
+        raise PathParamError(f'No booking with id {booking_id}')
+
+    db.session.delete(booking)
+    db.session.commit()
+
+    return jsonify({'message': f'Booking with ID {booking_id} deleted.'}), 200
