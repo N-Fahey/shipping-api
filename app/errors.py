@@ -9,6 +9,13 @@ class PathParamError(Exception):
     def __init__(self, message):
         self.message = message
         super().__init__(self.message)
+
+class QueryParamError(Exception):
+    '''Exception for query parameter lookup errors
+    '''
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
     
 class BodyError(Exception):
     '''Exception for request body errors
@@ -28,6 +35,10 @@ def register_error_handler(app:Flask):
     
     @app.errorhandler(BodyError)
     def handle_body_error(e:BodyError):
+        return jsonify({'message': e.message}), 400
+    
+    @app.errorhandler(QueryParamError)
+    def handle_query_error(e:QueryParamError):
         return jsonify({'message': e.message}), 400
     
     @app.errorhandler(IntegrityError)
@@ -50,7 +61,7 @@ def register_error_handler(app:Flask):
     
     @app.errorhandler(DataError)
     def handle_data_error(e:DataError):
-        return jsonify({'message': f"An unexpected data error occured: {e}"}), 400
+        return jsonify({'message': f"An unexpected data error occured: {e.args}"}), 400
     
     @app.errorhandler(404)
     def handle_404_error(e:Exception):
