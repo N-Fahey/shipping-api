@@ -42,7 +42,7 @@ class Booking(db.Model):
     __table_args__ = (
         ExcludeConstraint(
             ('dock_id', "="),
-            (func.tstzrange(booking_start, booking_end, '[]'), "&&"),
+            (func.tstzrange(booking_start, booking_end, '[)'), "&&"),
             where=("booking_status = 'CONFIRMED'"),
             name='exclude_overlapping_confirmed_bookings_per_dock'
         ),

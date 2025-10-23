@@ -31,7 +31,7 @@ class BookingSchema(SQLAlchemyAutoSchema):
     #Explicitly define booking_status field to avoid TypeError when deserialising, as Marshmallow automatically assigns as type Enum
     booking_status = fields.String(validate=validate.OneOf([status for status in Booking.booking_status.type.enums]))
 
-    ship = fields.Nested('ShipSchema')
+    ship = fields.Nested('ShipSchema', exclude=['bookings'])
     dock = fields.Nested('DockSchema', exclude=['bookings'])
     
     @validates_schema

@@ -1,10 +1,13 @@
 from datetime import datetime, timedelta
+from re import search as search_re
 
 from flask import Blueprint, request, jsonify
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
+from psycopg2 import errorcodes
 
 from app.schemas import booking_schema, bookings_schema
-from app.model import Booking
+from app.model import Booking, Ship, Dock
 from app.db import db
 from app.errors import PathParamError, BodyError, QueryParamError
 
@@ -24,6 +27,19 @@ def create_booking():
     '''
 
     data = request.get_json()
+
+    #Check ship & dock exist, and that lengths are compatible. Must be done at controller level as requires db call
+    ship_id = data.get('ship_id')
+    dock_id = data.get('dock_id')
+    ship = db.session.get(Ship, ship_id)
+    dock = db.session.get(Dock, dock_id)
+
+    if not ship:
+        raise BodyError(f'No ship found with supplied ID: {ship_id}')
+    if not dock:
+        raise BodyError(f'No dock found with supplied ID: {dock_id}')
+    if ship.ship_length > dock.dock_length:
+        raise BodyError(f'Ship length ({ship.ship_length}m) exceeds dock length ({dock.dock_length}m). Unable to create booking')
     
     #Process start/end datetime
     start_str = data.pop('booking_start', None)
@@ -45,9 +61,19 @@ def create_booking():
 
     #Load new booking
     new_booking = booking_schema.load(data, session=db.session)
-
-    db.session.add(new_booking)
-    db.session.commit()
+    
+    try:
+        db.session.add(new_booking)
+        db.session.commit()
+    except IntegrityError as e:
+        #Return a useful error message if exclusion constraint violated.
+        #If any other IntegrityError occurs, raise to be caught by global error handler
+        if e.orig.pgcode != errorcodes.EXCLUSION_VIOLATION:
+            raise e
+        print(e.orig.pgerror)
+        current_booking_start = search_re(r'conflicts with existing key.*?=\(\d+, \["(.+?)","(.+?)"', e.orig.pgerror).group(1)
+        current_booking_end = search_re(r'conflicts with existing key.*?=\(\d+, \["(.+?)","(.+?)"', e.orig.pgerror).group(2)
+        raise BodyError(f'Unable to create booking. Booking conflicts with existing booking for this dock from {current_booking_start} to {current_booking_end}.')
     
     result = booking_schema.dump(new_booking)
     return jsonify(result), 201
@@ -123,7 +149,7 @@ def update_booking(booking_id:int):
     Body (All optional):
         booking_start (datetime): Update booking start time, using format YYYY-MM-DD HH:MM
         booking_end (datetime): Update booking end time, using format YYYY-MM-DD HH:MM
-        booking_status (int): Contact phone number
+        booking_status (int): Update status of the booking
     '''
 
     booking = db.session.get(Booking, booking_id)
