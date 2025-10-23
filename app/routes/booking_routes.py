@@ -64,7 +64,6 @@ def create_booking():
     data['booking_start'] = start_datetime
     data['booking_end'] = end_datetime
 
-    #TODO: Controller/schema level validation of overlapping bookings - using get route
 
     #Load new booking
     new_booking = booking_schema.load(data, session=db.session)

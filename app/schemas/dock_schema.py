@@ -35,7 +35,6 @@ class DockSchema(SQLAlchemyAutoSchema):
     ])
 
     bookings = fields.List(fields.Nested('BookingSchema', exclude=['dock']))
-    #TODO: validation re. cargo types
 
 class DockCargoSchema(SQLAlchemyAutoSchema):
     """Schema to define load & dump validation rules for the DockCargo model

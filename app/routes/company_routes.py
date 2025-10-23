@@ -52,8 +52,6 @@ def get_all_companies():
     '''
     stmt = select(Company)
 
-    #TODO: Add any query parameters
-
     companies = db.session.scalars(stmt)
 
     result = companies_schema.dump(companies)
