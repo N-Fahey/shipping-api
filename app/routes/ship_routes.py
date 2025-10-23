@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from sqlalchemy import select
 
 from app.schemas import ship_schema, ships_schema
-from app.model import Ship
+from app.model import Ship, Booking
 from app.db import db
 from app.errors import PathParamError, BodyError
 
@@ -100,7 +100,12 @@ def delete_ship(ship_id:int):
     if not ship:
         raise PathParamError(f'No ship with id {ship_id}')
     
-    #TODO: Validation re. bookings
+    #Check if ship exists in any bookings
+    stmt = select(Booking).where(Booking.ship_id == ship.id)
+
+    existing_bookings = db.session.scalars(stmt).all()
+    if existing_bookings:
+        raise PathParamError(f'Unable to delete ship with id {ship_id}. Remove existing bookings for this ship first.')
 
     db.session.delete(ship)
     db.session.commit()

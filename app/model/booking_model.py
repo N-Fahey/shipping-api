@@ -35,8 +35,8 @@ class Booking(db.Model):
     booking_start: Mapped[datetime] = mapped_column(types.DateTime(timezone=True))
     booking_end: Mapped[datetime] = mapped_column(types.DateTime(timezone=True))
     booking_status = mapped_column(types.Enum(StatusEnum))
-    ship_id: Mapped[int] = mapped_column(ForeignKey('ships.id'))
-    dock_id: Mapped[int] = mapped_column(ForeignKey('docks.id'))
+    ship_id: Mapped[int] = mapped_column(ForeignKey('ships.id', ondelete='RESTRICT'))
+    dock_id: Mapped[int] = mapped_column(ForeignKey('docks.id', ondelete='RESTRICT'))
 
     #Table args need to be defined after columns, ExcludeConstraint makes use of column defs
     __table_args__ = (

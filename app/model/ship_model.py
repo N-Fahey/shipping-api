@@ -33,4 +33,4 @@ class Ship(db.Model):
 
     cargo_type: Mapped['CargoType'] = relationship()
     company: Mapped['Company'] = relationship(back_populates='ships')
-    bookings: Mapped[list['Booking']] = relationship(back_populates='ship')
+    bookings: Mapped[list['Booking']] = relationship(back_populates='ship', passive_deletes='all')
