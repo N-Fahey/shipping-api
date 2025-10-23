@@ -4,6 +4,18 @@ from marshmallow import fields, validate
 from app.model import Ship
 
 class ShipSchema(SQLAlchemyAutoSchema):
+    """Schema to define load & dump validation rules for the Ship model
+
+    Fields:
+        ship_name (str): Name of the ship
+        ship_length (int): Length of the ship (in metres)
+        registration_country (str): Country the ship is registered in
+        cargo_type_id (int) load only: ID of the cargo type this ship is configured for
+        company_id (int) load only: ID of the company owning this ship
+        cargo_type (CargoType) dump only: Nested CargoSchema of cargo types this ship is configured for
+        company (Company) dump only: Nested CompanySchema of the company owning this ship
+        bookings (list[Booking]) dump only: List of nested BookingSchemas made for this ship
+    """
     class Meta:
         model = Ship
         load_instance = True

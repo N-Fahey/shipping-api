@@ -4,6 +4,16 @@ from marshmallow import fields, validate
 from app.model import Company
 
 class CompanySchema(SQLAlchemyAutoSchema):
+    """Schema to define load & dump validation rules for the Company model
+
+    Fields:
+        company_name (str): Name of the company
+        country (str): Company the country is registered in
+        email (str): Contact email for the company
+        phone (str): Contact phone number for the company
+        address (str): Street address of the company headquarters
+        ships (list[Ship]) dump only: List of nested ShipSchemas registered to the company
+    """
     class Meta:
         model = Company
         load_instance = True

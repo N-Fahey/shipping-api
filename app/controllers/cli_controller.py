@@ -98,7 +98,7 @@ def seed_data():
 
     db.session.add_all(dock_cargo)
     db.session.commit()
-
+    #TODO: Finish booking seed data
     # bookings = [
     #     Booking()
     # ]

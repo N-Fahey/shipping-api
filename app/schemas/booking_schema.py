@@ -6,6 +6,18 @@ from marshmallow import fields, validate, validates_schema, ValidationError, pos
 from app.model import Booking
 
 class BookingSchema(SQLAlchemyAutoSchema):
+    """Schema to define load & dump validation rules for the Booking model
+
+    Fields:
+        booking_start (datetime): Start date & time of the booking
+        booking_duration (int) Optional, load only: Duration (in hours) of the booking
+        booking_end (datetime): End date & time of the booking
+        booking_status (str): Status of the booking. Enum defined by StatusEnum in Booking model 
+        ship_id (int) load only: ID of the ship this booking is for
+        dock_id (int) load only: ID of the dock this booking is for
+        ship (Ship) dump only: Nested ShipSchema of the ship with matching ship_id
+        dock (Dock) dump only: Nested DockSchema of the dock with matching dock_id
+    """
     class Meta:
         model = Booking
         load_instance = True
@@ -36,6 +48,8 @@ class BookingSchema(SQLAlchemyAutoSchema):
     
     @validates_schema
     def validate_dates(self, data, **kwargs):
+        """Validator function to check for any invalid dates supplied
+        """
         today = datetime.now().date()
         booking_start = data.get('booking_start')
         booking_end = data.get('booking_end')

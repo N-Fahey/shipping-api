@@ -6,6 +6,8 @@ from .controllers import cli_bp
 from .routes import routes_bp
 
 def create_app():
+    '''App factory to define and create the Flask application
+    '''
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = DB_CONNSTR
     db.init_app(app)

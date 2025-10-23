@@ -4,6 +4,14 @@ from marshmallow import fields, validate
 from app.model import Dock, DockCargo
 
 class DockSchema(SQLAlchemyAutoSchema):
+    """Schema to define load & dump validation rules for the Dock model
+
+    Fields:
+        dock_code (str): Identifying alphanumeric code for the dock
+        dock_length (int): Length of the dock (in metres)
+        cargo_types (list[CargoType]) dump only: List of nested CargoSchemas of cargo types this dock accepts
+        bookings (list[Booking]) dump only: List of nested BookingSchemas made for this dock
+    """
     class Meta:
         model = Dock
         load_instance = True
@@ -30,6 +38,12 @@ class DockSchema(SQLAlchemyAutoSchema):
     #TODO: validation re. cargo types
 
 class DockCargoSchema(SQLAlchemyAutoSchema):
+    """Schema to define load & dump validation rules for the DockCargo model
+
+    Fields:
+        cargo_type_id (int): ID of the cargo type represented by this relationship
+        dock_id (int): ID of the dock represented by this relationship
+    """
     class Meta:
         model = DockCargo
         load_instance = True

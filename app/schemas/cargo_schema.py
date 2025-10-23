@@ -4,6 +4,12 @@ from marshmallow import fields, validate
 from app.model import CargoType
 
 class CargoSchema(SQLAlchemyAutoSchema):
+    """Schema to define load & dump validation rules for the Cargo model
+
+    Fields:
+        cargo_name (str): Name of the cargo type
+        docks (list[Dock]) dump only: List of nested DockSchemas that accept this cargo type
+    """
     class Meta:
         model = CargoType
         load_instance = True

@@ -1,15 +1,19 @@
 from datetime import datetime
 from enum import Enum
 
-from sqlalchemy import types, ForeignKey, CheckConstraint
+from sqlalchemy import types, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import ExcludeConstraint
 from sqlalchemy import func
 
-
 from app.db import db
 
 class StatusEnum(Enum):
+    '''Define enum object for use in bookings.booking_status
+    Options:
+        PENDING - A pending booking (Will allow conflicting booking times)
+        CONFIRMED - A finalised booking (Will prevent conflicts of booking times)
+    '''
     PENDING = 'PENDING'
     CONFIRMED = 'CONFIRMED'
 
