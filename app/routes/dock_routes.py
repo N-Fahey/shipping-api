@@ -2,9 +2,9 @@ from flask import Blueprint, request, jsonify
 from sqlalchemy import select, delete
 
 from app.schemas import dock_schema, docks_schema, dock_cargos_schema
-from app.model import Dock, DockCargo
+from app.model import Dock, DockCargo, CargoType
 from app.db import db
-from app.errors import PathParamError, BodyError
+from app.errors import PathParamError, BodyError, QueryParamError
 
 dock_route_bp = Blueprint('dock_routes', __name__, url_prefix='/dock')
 
@@ -62,15 +62,30 @@ def get_dock(dock_id:int):
 @dock_route_bp.route('/GetAllDocks')
 def get_all_docks():
     '''Get all docks
-
+    Query Params (All optional):
+        min_length (int): Retrieve docks longer than supplied length (in metres)
+        cargo_type (int): Retrieve docks that can accept cargo type with supplied ID / IDs. Multiple IDs must be seperated by a comma
     '''
     stmt = select(Dock)
 
-    #TODO: Add any query parameters
+    min_length = request.args.get('min_length', type=int)
+    q_cargo_type = request.args.get('cargo_type')
+
+    # Min dock length filter
+    if min_length:
+        stmt = stmt.where(Dock.dock_length >= min_length)
+    
+    # Cargo type IDs filter
+    if q_cargo_type:
+        try:
+            cargo_ids = [int(cargo_id) for cargo_id in q_cargo_type.replace(' ', '').split(',')]
+        except ValueError:
+            raise QueryParamError('cargo_type must be a comma seperated list of integers.')
+        stmt = stmt.filter(Dock.cargo_types.any(CargoType.id.in_(cargo_ids)))
 
     docks = db.session.scalars(stmt)
-
     result = docks_schema.dump(docks)
+
     return jsonify(result), 200
 
 @dock_route_bp.route('/UpdateLength/<int:dock_id>', methods=('PUT','PATCH'))
