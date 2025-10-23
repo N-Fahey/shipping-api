@@ -28,7 +28,7 @@ def create_booking():
 
     data = request.get_json()
 
-    #Check ship & dock exist, and that lengths are compatible. Must be done at controller level as requires db call
+    #Check ship & dock exist, and that lengths & cargo types are compatible. Must be done at controller level as requires db call
     ship_id = data.get('ship_id')
     dock_id = data.get('dock_id')
     ship = db.session.get(Ship, ship_id)
@@ -38,8 +38,15 @@ def create_booking():
         raise BodyError(f'No ship found with supplied ID: {ship_id}')
     if not dock:
         raise BodyError(f'No dock found with supplied ID: {dock_id}')
+    
     if ship.ship_length > dock.dock_length:
         raise BodyError(f'Ship length ({ship.ship_length}m) exceeds dock length ({dock.dock_length}m). Unable to create booking')
+    
+    dock_cargo_ids = [dock_obj.id for dock_obj in dock.cargo_types]
+
+    if ship.cargo_type_id not in dock_cargo_ids:
+        dock_cargo_names = [f"'{dock_obj.cargo_name}'" for dock_obj in dock.cargo_types]
+        raise BodyError(f"Dock '{dock.dock_code}' cannot accept cargo of type '{ship.cargo_type.cargo_name}'. Accepts: {', '.join(dock_cargo_names)}")
     
     #Process start/end datetime
     start_str = data.pop('booking_start', None)
@@ -118,7 +125,8 @@ def get_all_bookings():
         raise QueryParamError('Invalid input supplied. from_time and to_time must match format: YYYY-MM-DD HH:MM')
 
     stmt = select(Booking)
-    # Handle from/to time
+
+    # Process start & end times
     if from_time and to_time:
         stmt = stmt.where(
             (Booking.booking_start < to_time) & (Booking.booking_end > from_time)
