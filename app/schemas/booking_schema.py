@@ -53,15 +53,22 @@ class BookingSchema(SQLAlchemyAutoSchema):
             raise ValidationError('Maximum booking duration is 12 hours.') 
     
     @post_dump
-    def serialise_status(self, data, **kwargs):
+    def serialise_fields(self, data, **kwargs):
         '''Hook to post_dump to correctly serialise status enum field, rather than string representation of the Enum
 
         Remind me to just use constrained VARCHAR next time
         '''
         status = data.get('booking_status')
+        start_str = data.get('booking_start')
+        end_str = data.get('booking_end')
 
         if status:
             data['booking_status'] = status.split('.')[1]
+        
+        if start_str:
+            data['booking_start'] = datetime.strptime(start_str, r'%Y-%m-%dT%H:%M:%S%z').strftime(r'%Y-%m-%d %H:%M')
+        if end_str:
+            data['booking_end'] = datetime.strptime(start_str, r'%Y-%m-%dT%H:%M:%S%z').strftime(r'%Y-%m-%d %H:%M')
 
         return data
 

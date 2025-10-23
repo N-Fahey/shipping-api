@@ -70,7 +70,7 @@ def create_booking():
         #If any other IntegrityError occurs, raise to be caught by global error handler
         if e.orig.pgcode != errorcodes.EXCLUSION_VIOLATION:
             raise e
-        print(e.orig.pgerror)
+
         current_booking_start = search_re(r'conflicts with existing key.*?=\(\d+, \["(.+?)","(.+?)"', e.orig.pgerror).group(1)
         current_booking_end = search_re(r'conflicts with existing key.*?=\(\d+, \["(.+?)","(.+?)"', e.orig.pgerror).group(2)
         raise BodyError(f'Unable to create booking. Booking conflicts with existing booking for this dock from {current_booking_start} to {current_booking_end}.')
