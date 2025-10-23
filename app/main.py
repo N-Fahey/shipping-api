@@ -14,7 +14,7 @@ def create_app():
 
     @app.route('/')
     def index():
-        return {'message': 'Hello, World!'}
+        return {'status': 'healthy'}
     
     app.register_blueprint(cli_bp)
     app.register_blueprint(routes_bp)
