@@ -53,6 +53,11 @@ def create_booking():
     end_str = data.pop('booking_end', None)
     duration = data.pop('booking_duration', None)
 
+    if not start_str:
+        raise BodyError('Booking start time (booking_start) required.')
+    
+    if not end_str and not duration:
+        raise BodyError('Booking end time (booking_end) or booking duration (booking_duration) required.')
 
     if end_str and duration:
         raise BodyError('Conflicting information supplied. Only one of booking_duration, booking_end can be supplied.')
