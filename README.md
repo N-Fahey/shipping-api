@@ -39,7 +39,7 @@ A RESTful web API built with Flask, SQLAlchemy & Marshmallow for managing bookin
 6. **Define environment variables**  
     Create .env file by copying default:
     ```
-    cp .env.default .env
+    cp .env.example .env
     ```
     Open .env file with any text editor, and update the following variables with your PostgreSQL credentials:
     ```
