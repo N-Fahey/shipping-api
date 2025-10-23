@@ -5,7 +5,6 @@ Coder Academy DEV1002 Assignment 3: Web API Server
 
 ## Description
 A RESTful web API built with Flask, SQLAlchemy & Marshmallow for managing bookings of ships into a freight terminal.  
-Features 
 
 ## Requirements
 * Windows, Linux or Mac
