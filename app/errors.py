@@ -31,7 +31,7 @@ def register_error_handler(app:Flask):
     
     @app.errorhandler(PathParamError)
     def handle_path_error(e:PathParamError):
-        return jsonify({'message': e.message}), 404
+        return jsonify({'message': e.message}), 400
     
     @app.errorhandler(BodyError)
     def handle_body_error(e:BodyError):

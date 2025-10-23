@@ -30,4 +30,4 @@ class Company(db.Model):
     phone: Mapped[str] = mapped_column(types.String(20))
     address: Mapped[str] = mapped_column(types.Text)
 
-    ships: Mapped[list['Ship']] = relationship(back_populates='company')
+    ships: Mapped[list['Ship']] = relationship(back_populates='company', passive_deletes='all')

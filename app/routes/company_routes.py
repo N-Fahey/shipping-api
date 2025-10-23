@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from sqlalchemy import select
 
 from app.schemas import company_schema, companies_schema
-from app.model import Company
+from app.model import Company, Ship
 from app.db import db
 from app.errors import PathParamError
 
@@ -97,7 +97,13 @@ def delete_company(company_id:int):
     if not company:
         raise PathParamError(f'No company with id {company_id}')
     
-    #TODO: Validation re. ships - in schema?
+    #Check if company still registered to any ships
+    stmt = select(Ship).where(Ship.company_id == company.id)
+
+    owned_ships = db.session.scalars(stmt).all()
+    if owned_ships:
+        ship_names = [ship.ship_name for ship in owned_ships]
+        raise PathParamError(f'Unable to delete company with id {company.id}. Change ownership of company ships first: {', '.join(ship_names)}')
 
     db.session.delete(company)
     db.session.commit()
