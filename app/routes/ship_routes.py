@@ -76,7 +76,7 @@ def update_ship(ship_id:int):
     data = request.get_json()
 
     #Only allow updates to specified items
-    allowed_updates = ('registration_country', 'cargo_type_id', 'ship_id')
+    allowed_updates = ('registration_country', 'cargo_type_id', 'company_id')
     data = {key: data.get(key) for key in allowed_updates if data.get(key)}
     
     if not data:
