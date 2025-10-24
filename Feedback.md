@@ -19,7 +19,7 @@
     **Actions:**
     1. Created Junction table for Docks & Cargo Types
     2. Added booking_status to Bookings table
-    3. Clarified booking_hours as column name
+    3. Clarified booking_hours as column name - *This has since been updated to instead store booking_end as a timestamp*
 
     <hr>
 ### Feedback 2
