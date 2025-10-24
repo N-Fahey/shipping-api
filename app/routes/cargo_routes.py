@@ -56,4 +56,4 @@ def delete_cargo(cargo_id:int):
     except IntegrityError:
         raise PathParamError('Unable to delete cargo type while registered to a ship or dock.')
 
-    return jsonify({'message': f'Booking with ID {cargo_id} deleted.'}), 200
+    return jsonify({'message': f'Cargo with ID {cargo_id} deleted.'}), 200
