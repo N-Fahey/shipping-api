@@ -14,7 +14,7 @@ class DockCargo(db.Model):
     """
 
     __tablename__ = 'dock_cargo'
-    __tableargs__ = (
+    __table_args__ = (
         UniqueConstraint('cargo_type_id', 'dock_id', name='dock_cargo_unique_cargo_type_id_dock_id'),
     )
 
