@@ -82,7 +82,7 @@ class BookingSchema(SQLAlchemyAutoSchema):
         if start_str:
             data['booking_start'] = datetime.strptime(start_str, r'%Y-%m-%dT%H:%M:%S%z').strftime(r'%Y-%m-%d %H:%M')
         if end_str:
-            data['booking_end'] = datetime.strptime(start_str, r'%Y-%m-%dT%H:%M:%S%z').strftime(r'%Y-%m-%d %H:%M')
+            data['booking_end'] = datetime.strptime(end_str, r'%Y-%m-%dT%H:%M:%S%z').strftime(r'%Y-%m-%d %H:%M')
 
         return data
 
