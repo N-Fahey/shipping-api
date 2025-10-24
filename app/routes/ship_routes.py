@@ -4,7 +4,7 @@ from sqlalchemy import select
 from app.schemas import ship_schema, ships_schema
 from app.model import Ship, Booking
 from app.db import db
-from app.errors import PathParamError, BodyError, QueryParamError
+from app.errors import PathParamError, BodyError
 
 ship_route_bp = Blueprint('ship_routes', __name__, url_prefix='/ship')
 

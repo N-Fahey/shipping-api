@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow import fields, validate, validates_schema, ValidationError, post_dump
 
 from app.model import Booking
