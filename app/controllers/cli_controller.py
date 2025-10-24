@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from flask import Blueprint
 from sqlalchemy import text
 
@@ -98,12 +100,20 @@ def seed_data():
 
     db.session.add_all(dock_cargo)
     db.session.commit()
-    #TODO: Finish booking seed data
-    # bookings = [
-    #     Booking()
-    # ]
 
-    # db.session.add_all(bookings)
-    # db.session.commit()
+    today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+
+    bookings = [
+        Booking(booking_start=today.replace(hour=8), booking_end=today.replace(hour=12), booking_status='CONFIRMED', ship_id=ships[0].id, dock_id=docks[0].id),
+        Booking(booking_start=today.replace(hour=13), booking_end=today.replace(hour=18), booking_status='CONFIRMED', ship_id=ships[2].id, dock_id=docks[3].id),
+        Booking(booking_start=(today.replace(hour=7) + timedelta(days=1)), booking_end=(today.replace(hour=15) + timedelta(days=1)), booking_status='CONFIRMED', ship_id=ships[1].id, dock_id=docks[2].id),
+        Booking(booking_start=(today.replace(hour=16) + timedelta(days=1)), booking_end=(today.replace(hour=20) + timedelta(days=1)), booking_status='CONFIRMED', ship_id=ships[4].id, dock_id=docks[3].id),
+        Booking(booking_start=(today.replace(hour=9) + timedelta(days=3)), booking_end=(today.replace(hour=17) + timedelta(days=3)), booking_status='CONFIRMED', ship_id=ships[3].id, dock_id=docks[2].id),
+        Booking(booking_start=(today.replace(hour=6) + timedelta(days=5)), booking_end=(today.replace(hour=12) + timedelta(days=5)), booking_status='CONFIRMED', ship_id=ships[5].id, dock_id=docks[3].id),
+        Booking(booking_start=(today.replace(hour=10) + timedelta(days=7)), booking_end=(today.replace(hour=20) + timedelta(days=7)), booking_status='CONFIRMED', ship_id=ships[0].id, dock_id=docks[1].id)
+    ]
+
+    db.session.add_all(bookings)
+    db.session.commit()
 
     print('Seed data inserted')
