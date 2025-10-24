@@ -71,3 +71,22 @@
         * Ships will have a single cargo type as a broad category, as explained above.
 
     <hr>
+
+## Design Stage
+
+### Feedback 1
+* From: Matt
+* Date: 2025-10-23  
+**Feedback:**
+    ```
+    hey nick , nice shipping api 😁
+    after taking a look i noticed: 
+    1. right now in ship_routes.py the update route is letting you change ship_id, but that’s the primary key and shouldn’t be editable. instead, it should allow updates to company_id, so admins can move a ship to a different company. swapping ship_id for company_id in the allowed updates would fix this.
+    2. in  booking_routes.py, if booking_start is missing or blank the code still tries to parse it with datetime.strptime, which gives you a 500 err. add a simple check before parsing so it throws a BodyError and returns a clean 400 instead.
+    otherwise looks great !
+    ```
+    **Actions:**
+    1. Fixed `ship_routes.py` issue, changed ship_id to company_id in allowed update fields.
+    2. Fixed potential error in `booking_routes.py` by raising BodyError before attempting to parse datetime strings.
+
+    <hr>
