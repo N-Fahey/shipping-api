@@ -16,7 +16,7 @@ def add_ship():
         Ship_name(str): Name of the ship
         Registration_country(str): The ship's country of registration
         Cargo_type_id (int): ID for the ships configured cargo type
-        Ship_id(int): ID for the ships owning ship
+        Company_id(int): ID for the ships owning company
     ''' 
     
     data = request.get_json()

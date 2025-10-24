@@ -167,7 +167,7 @@ def update_booking(booking_id:int):
     booking = db.session.get(Booking, booking_id)
 
     if not booking:
-        raise PathParamError(f'No ship with id {booking_id}')
+        raise PathParamError(f'No booking with id {booking_id}')
     
     data = request.get_json()
 

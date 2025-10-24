@@ -15,7 +15,7 @@ class Dock(db.Model):
 
     __tablename__ = 'docks'
     __table_args__ = (
-        CheckConstraint('dock_length > 0', name='check_dock_lenth'),
+        CheckConstraint('dock_length > 0', name='check_dock_length'),
         CheckConstraint('length(dock_code) > 1', name='check_dock_code_length'),
         CheckConstraint("regexp_like(dock_code, '^[a-zA-Z0-9]+$')", name='check_dock_code_regex')
     )
